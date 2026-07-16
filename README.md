@@ -1,7 +1,8 @@
 # Get started quickly
 
 - install dependencies
-  **terminal**
+
+**terminal**
 
 ```bash
 pip install -r requirements.txt
@@ -89,7 +90,7 @@ python -m django --version
 django-admin startproject config .
 ```
 
-- This will create a project named 'project_core' and 'manage.py' file inside the current directory
+- This will create a core project directory named 'config' and a file 'manage.py' inside current directory
 
 - Run server to test if everything is okay
 
@@ -268,7 +269,9 @@ DATABASES["default"]["CONN_MAX_AGE"] = 600
 
 - As initial setups have completed, do your first commit (optionally push to a github repo)
 
-## (Optional) TailwindCSS and DaisyUI setup for frontend (not for this project)
+## (Optional) TailwindCSS and DaisyUI setup for frontend
+
+- will be updated later
 
 <!-- ============================END INITIAL DJANGO SETUPS============================== -->
 
