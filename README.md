@@ -1,4 +1,23 @@
-# Get started quickly
+# Table of contents <!-- omit in toc -->
+
+- [1. Run the existing starter project](#1-run-the-existing-starter-project)
+- [2. Step by step guide from scratch (for Ubuntu or wsl)](#2-step-by-step-guide-from-scratch-for-ubuntu-or-wsl)
+  - [2.1. Install python (if still not)](#21-install-python-if-still-not)
+  - [2.2. Create venv (virtual environment)](#22-create-venv-virtual-environment)
+  - [2.3. Add common things to `.gitignore` file](#23-add-common-things-to-gitignore-file)
+  - [2.4. Install Django](#24-install-django)
+  - [2.5. Create a django project](#25-create-a-django-project)
+  - [2.6. Database setup for PostgreSQL](#26-database-setup-for-postgresql)
+    - [2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#261-install-psycopg-package-httpsgithubcompsycopgpsycopg)
+    - [2.6.2. Create database](#262-create-database)
+      - [2.6.2.1. enter postgress psql shell](#2621-enter-postgress-psql-shell)
+    - [2.6.3. Settings file](#263-settings-file)
+    - [2.6.4. Environ variables](#264-environ-variables)
+    - [2.6.5. Git commit](#265-git-commit)
+  - [2.7. Configure templates, static files and media](#27-configure-templates-static-files-and-media)
+  - [2.8. (Optional) TailwindCSS and DaisyUI setup for frontend](#28-optional-tailwindcss-and-daisyui-setup-for-frontend)
+
+# 1. Run the existing starter project
 
 - install dependencies
 
@@ -18,9 +37,11 @@ pip install -r requirements.txt
 python manage.py migration
 ```
 
-# Step by step guide from scratch (for Ubuntu or wsl)
+# 2. Step by step guide from scratch (for Ubuntu or wsl)
 
-## Install python (if still not)
+Create your own project directory to start from scratch and follow this guide.
+
+## 2.1. Install python (if still not)
 
 - for ubuntu (wsl)
 
@@ -35,29 +56,31 @@ sudo apt install python3 python3-pip python3-venv
 apt list --installed python3 python3-pip python3-venv
 ```
 
-## Create venv (virtual environment)
+## 2.2. Create venv (virtual environment)
 
 - Create a venv inside the project directory
 
-```bash
-python3 -m venv .venv
-```
+  ```bash
+  python3 -m venv .venv
+  ```
 
-- immediately add it to .gitignore file
+- immediately add it to `.gitignore` file:
 
-.gitignore
-
-```
-.venv/
-```
+  ```
+  .venv/
+  ```
 
 - Activate venv
 
-```bash
-source .venv/bin/activate
-```
+  ```bash
+  source .venv/bin/activate
+  ```
 
-## Install Django
+## 2.3. Add common things to `.gitignore` file
+
+[Follow this link](https://github.com/ttanvirr/django-notes/blob/main/.gitignore) and add common things to `.gitignore`.
+
+## 2.4. Install Django
 
 ```bash
 python -m pip install django
@@ -84,7 +107,7 @@ python
 python -m django --version
 ```
 
-## Create a django project
+## 2.5. Create a django project
 
 ```bash
 django-admin startproject config .
@@ -100,12 +123,12 @@ python manage.py runserver
 
 - ignore the 'unapplied migration' warning for now.
 
-## Database setup for PostgreSQL
+## 2.6. Database setup for PostgreSQL
 
 - Django comes with `sqlite` db by defalut. But if we want to setup big db engines like PostgreSql, we need to set it up.
 - This can be done at the end, but recommended to do at the beginning to avoid any issue
 
-### Install `psycopg` package (https://github.com/psycopg/psycopg/)
+### 2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
 
 - Install following packages in global system (not in venv)
 
@@ -127,9 +150,9 @@ pip install "psycopg[c,pool]"
 pip freeze > requirements.txt
 ```
 
-### Create database
+### 2.6.2. Create database
 
-#### enter postgress psql shell
+#### 2.6.2.1. enter postgress psql shell
 
 open wsl
 
@@ -155,7 +178,7 @@ This will grant all privileges to the user by default
 \l
 ```
 
-### Settings file
+### 2.6.3. Settings file
 
 - Install `dj-database-url` for convenience (https://pypi.org/project/dj-database-url/)
 
@@ -203,7 +226,7 @@ This tables are created based on INSTALLED_APPS listed in settings.py
 
 - run `\q` to exit psql shell
 
-### Environ variables
+### 2.6.4. Environ variables
 
 - create `.env` file in the root
 
@@ -265,11 +288,68 @@ DATABASES["default"]["CONN_MAX_AGE"] = 600
 
 - Stop the server, run migrate and server. Check if everything is okay
 
-### Git commit
+### 2.6.5. Git commit
 
 - As initial setups have completed, do your first commit (optionally push to a github repo)
 
-## (Optional) TailwindCSS and DaisyUI setup for frontend
+## 2.7. Configure templates, static files and media
+
+If you want to use project-level `templates` directory, add this settings in `settings.py`
+
+```py
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"], # new
+        "APP_DIRS": True,
+        # ...
+    },
+]
+```
+
+If you want your static files to be served by nginx (usually in production), add these settings to `settings.py`
+
+```py
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"  # new
+```
+
+> [!NOTE]
+> The command `python manage.py collectstatic` will collect all static files to this `staticfiles` directory. Run this command only when you want nginx to serve static files (usually in production).
+
+If your project needs user to upload files/media, add these settings to `settings.py`
+
+```py
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+```
+
+With default configuration, the development server (`runserver`) automatically serves static files during development but it can't automatically serve media files. So, we need to add the following URL pattern for development.:
+
+`config/urls.py`
+
+```py
+from django.conf import settings # new
+from django.conf.urls.static import static # new
+
+urlpatterns = [
+    # ...
+]
+
+# new
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+```
+
+If your project handles image uploads, install `Pillow`:
+
+```bash
+pip install pillow
+pip freeze > requirements.txt
+```
+
+## 2.8. (Optional) TailwindCSS and DaisyUI setup for frontend
 
 - will be updated later
 
