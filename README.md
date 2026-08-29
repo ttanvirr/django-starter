@@ -130,23 +130,10 @@ python manage.py runserver
 
 ### 2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
 
-- Install following packages in global system (not in venv)
-
-```bash
-sudo apt update
-sudo apt install libpq5 libpq-dev python3-dev
-```
-
-- OR, check if they are already installed (globally)
-
-```bash
-apt list --installed libpq5 libpq-dev python3-dev
-```
-
 - In the project's venv (activating venv), install following
 
 ```bash
-pip install "psycopg[c,pool]"
+pip install "psycopg[binary,pool]"
 pip freeze > requirements.txt
 ```
 
