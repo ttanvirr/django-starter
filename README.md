@@ -7,13 +7,13 @@
   - [2.3. Add common things to `.gitignore` file](#23-add-common-things-to-gitignore-file)
   - [2.4. Install Django](#24-install-django)
   - [2.5. Create a django project](#25-create-a-django-project)
-  - [2.6. Database setup for PostgreSQL](#26-database-setup-for-postgresql)
-    - [2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#261-install-psycopg-package-httpsgithubcompsycopgpsycopg)
-    - [2.6.2. Create database](#262-create-database)
-      - [2.6.2.1. enter postgress psql shell](#2621-enter-postgress-psql-shell)
-    - [2.6.3. Settings file](#263-settings-file)
-    - [2.6.4. Environ variables](#264-environ-variables)
-    - [2.6.5. Git commit](#265-git-commit)
+  - [2.2. Database setup for PostgreSQL](#22-database-setup-for-postgresql)
+    - [2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#221-install-psycopg-package-httpsgithubcompsycopgpsycopg)
+    - [2.2.2. Create the PostgreSQL database](#222-create-the-postgresql-database)
+    - [2.2.3. Configure PostgreSQL and environment variables](#223-configure-postgresql-and-environment-variables)
+    - [2.2.4. Configure `settings.py`](#224-configure-settingspy)
+    - [2.2.5. Verify the PostgreSQL configuration](#225-verify-the-postgresql-configuration)
+    - [2.2.6. Git commit](#226-git-commit)
   - [2.7. Configure templates, static files and media](#27-configure-templates-static-files-and-media)
   - [2.8. (Optional) TailwindCSS and DaisyUI setup for frontend](#28-optional-tailwindcss-and-daisyui-setup-for-frontend)
 
@@ -134,25 +134,25 @@ python manage.py runserver
 
 - ignore the 'unapplied migration' warning for now.
 
-## 2.6. Database setup for PostgreSQL
+## 2.2. Database setup for PostgreSQL
 
 - Django comes with `sqlite` db by defalut. But if we want to setup big db engines like PostgreSql, we need to set it up.
 - This can be done at the end, but recommended to do at the beginning to avoid any issue
 
-### 2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
+### 2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
 
-- In the project's venv (activating venv), install following
+`psycopg` is the PostgreSQL adapter that allows Python/Django to communicate with PostgreSQL.
+
+Install it in venv:
 
 ```bash
 pip install "psycopg[binary,pool]"
 pip freeze > requirements.txt
 ```
 
-### 2.6.2. Create database
+### 2.2.2. Create the PostgreSQL database
 
-#### 2.6.2.1. enter postgress psql shell
-
-open wsl
+Open wsl and run the following command to enter postgress `psql` shell
 
 ```bash
 sudo -u postgres psql
@@ -162,7 +162,7 @@ sudo -u postgres psql
 
 - Create db for an existing postgres user:
 
-`(DON'T FORGET SEMICOLON FOR POSTGRES SHELL COMMANDS)`
+> DON'T FORGET SEMICOLON (`;`) FOR POSTGRES SHELL COMMANDS
 
 ```psql
 CREATE DATABASE <db_name> OWNER <pg_username>;
@@ -176,91 +176,42 @@ This will grant all privileges to the user by default
 \l
 ```
 
-### 2.6.3. Settings file
+### 2.2.3. Configure PostgreSQL and environment variables
 
-- Install `dj-database-url` for convenience (https://pypi.org/project/dj-database-url/)
-
-**terminal**
-
-```bash
-(.venv)$ pip install dj-database-url
-pip freeze > requirements.txt
-```
-
-**config/settings.py**
-
-```py
-import dj_database_url
-
-# modify
-DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://<db_owner>:<owner_password>@<host>:5432/<db_name>",
-        conn_max_age=600,
-    )
-}
-```
-
-- for local dev `<host>` will be `localhost`
-
-- DELETE `db.sqlite3` file
-- Run migrate and runserver. See if everything is okay
-
-- For extra check, check if database tables (auth, etc.) are created.
-
-**terminal**
-
-```bash
-psql -U <db_user> -d <db_name>
-```
-
-**psql shell**
-
-```psql
-\dt
-```
-
-This tables are created based on INSTALLED_APPS listed in settings.py
-
-- run `\q` to exit psql shell
-
-### 2.6.4. Environ variables
-
-- create `.env` file in the root
-
-```
-DEBUG=True
-SECRET_KEY=<django_secret_key>
-DATABASE_URL=postgres://<db_owner>:<owner_password>@<port>:5432/<db_name>
-```
-
-- immediately add .env to .gitignore file
-
-- Generate secret key for django:
-
-**terminal**
-
-```bash
-python -c "import secrets; print(secrets.token_urlsafe(50))"
-```
-
-- add the secret key to .env file as value of `SECRET_KEY`.
-- update `DATABASE_URL` in .env file with real values.
-
-- Install `django-environ` in the venv:
+Install `django-environ` in the venv:
 
 ```bash
 pip install django-environ
 pip freeze > requirements.txt
 ```
 
-- Modify settings.py to use the envs
+Create a `.env` file in the project root:
 
-**settings.py**
+```
+DEBUG=True
+SECRET_KEY=<django_secret_key>
+DATABASE_URL=postgresql://<db_owner>:<owner_password>@<host>:5432/<db_name>
+```
+
+Replace `<db_owner>` and `<owner_password>` with your postgres user and password. For local dev `<host>` will be `localhost`
+
+> [!IMPORTANT]
+> Check that the `.env` is added to `.gitignore`
+
+Generate a secret key for Django:
+
+```bash
+uv run python -c "import secrets; print(secrets.token_urlsafe(50))"
+```
+
+Copy the generated value and use it as the value of `SECRET_KEY` in `.env`.
+
+### 2.2.4. Configure `settings.py`
+
+Modify `config/settings.py` to read the environment variables:
 
 ```py
 import environ
-import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -272,21 +223,63 @@ env = environ.Env(
 )
 
 # Read the .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+env.read_env(BASE_DIR / '.env')
 
 # Use the variables
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 DATABASES = {
-    'default': env.db(), # Parses DATABASE_URL using django-environ's built-in dj-database-url support.
+    'default': env.db(), # django-environ reads DATABASE_URL and converts it into Django's DATABASES configuration.
 }
 DATABASES["default"]["CONN_MAX_AGE"] = 600
 ```
 
-- Stop the server, run migrate and server. Check if everything is okay
+### 2.2.5. Verify the PostgreSQL configuration
 
-### 2.6.5. Git commit
+Delete the default SQLite database if it was created:
+
+```bash
+rm db.sqlite3
+```
+
+Run the migrations:
+
+```bash
+uv run manage.py migrate
+```
+
+Then start the development server:
+
+```bash
+uv run manage.py runserver
+```
+
+Check that the application works correctly.
+
+For an additional check, verify that Django's database tables were created in PostgreSQL:
+
+```bash
+psql -U <db_user> -d <db_name>
+```
+
+Inside the PostgreSQL shell:
+
+```psql
+\dt
+```
+
+You should see tables such as `auth_user`, `django_migrations`, `django_session`, etc.
+
+These tables are created by the migrations associated with the applications listed in `INSTALLED_APPS`.
+
+Exit the PostgreSQL shell with:
+
+```psql
+\q
+```
+
+### 2.2.6. Git commit
 
 - As initial setups have completed, do your first commit (optionally push to a github repo)
 
