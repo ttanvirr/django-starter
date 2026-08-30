@@ -51,6 +51,8 @@ Create your own project directory to start from scratch and follow this guide.
 > [!TIP]
 > You can check available python versions using `uv python list`
 
+4.
+
 ## 2.6. Database setup for PostgreSQL
 
 - Django comes with `sqlite` db by defalut. But if we want to setup big db engines like PostgreSql, we need to set it up.
