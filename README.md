@@ -2,11 +2,7 @@
 
 - [1. Run the existing starter project](#1-run-the-existing-starter-project)
 - [2. Step by step guide from scratch (for Ubuntu or wsl)](#2-step-by-step-guide-from-scratch-for-ubuntu-or-wsl)
-  - [2.1. Install python (if still not)](#21-install-python-if-still-not)
-  - [2.2. Create venv (virtual environment)](#22-create-venv-virtual-environment)
-  - [2.3. Add common things to `.gitignore` file](#23-add-common-things-to-gitignore-file)
-  - [2.4. Install Django](#24-install-django)
-  - [2.5. Create a django project](#25-create-a-django-project)
+  - [Create the Django project using `uv`](#create-the-django-project-using-uv)
   - [2.6. Database setup for PostgreSQL](#26-database-setup-for-postgresql)
     - [2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#261-install-psycopg-package-httpsgithubcompsycopgpsycopg)
     - [2.6.2. Create database](#262-create-database)
@@ -19,7 +15,7 @@
 
 # 1. Run the existing starter project
 
-- Install [uv](https://tinyurl.com/5bdmvhn4)
+- Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed
 - Install dependencies
 
   `terminal`
@@ -42,87 +38,18 @@
 
 Create your own project directory to start from scratch and follow this guide.
 
-## 2.1. Install python (if still not)
+## Create the Django project using `uv`
 
-- for ubuntu (wsl)
+1. Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed.
+2. Create a project directory (e.g., `django-starter`) and navigate to it.
+3. Initialize the project in the current directory, pinned to `Python 3.15`:
 
-```bash
-sudo apt update
-sudo apt install python3 python3-pip python3-venv
-```
+   ```bash
+   uv init --python 3.15 .
+   ```
 
-- OR, check if they are already installed (globally)
-
-```bash
-apt list --installed python3 python3-pip python3-venv
-```
-
-## 2.2. Create venv (virtual environment)
-
-- Create a venv inside the project directory
-
-  ```bash
-  python3 -m venv .venv
-  ```
-
-- immediately add it to `.gitignore` file:
-
-  ```
-  .venv/
-  ```
-
-- Activate venv
-
-  ```bash
-  source .venv/bin/activate
-  ```
-
-## 2.3. Add common things to `.gitignore` file
-
-[Follow this link](https://github.com/ttanvirr/django-notes/blob/main/.gitignore) and add common things to `.gitignore`.
-
-## 2.4. Install Django
-
-```bash
-python -m pip install django
-pip freeze > requirements.txt
-```
-
-- To verify that Django can be seen by Python, type python from your shell. Then at the Python prompt, try
-  to import Django:
-
-```bash
-python
->>> import django
->>> print(django.get_version())
-
-//output
-6.0.6
-
->>> exit()
-```
-
-- Or, run this while activating the venv
-
-```bash
-python -m django --version
-```
-
-## 2.5. Create a django project
-
-```bash
-django-admin startproject config .
-```
-
-- This will create a core project directory named 'config' and a file 'manage.py' inside current directory
-
-- Run server to test if everything is okay
-
-```bash
-python manage.py runserver
-```
-
-- ignore the 'unapplied migration' warning for now.
+> [!TIP]
+> You can check available python versions using `uv python list`
 
 ## 2.6. Database setup for PostgreSQL
 
