@@ -42,15 +42,17 @@ Create your own project directory to start from scratch and follow this guide.
 
 1. Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed.
 2. Create a project directory (e.g., `django-starter`) and navigate to it.
-3. Initialize the project in the current directory, pinned to `Python 3.15`:
+3. Initialize the project in the current directory, pinned to `Python 3.14`:
 
    ```bash
-   uv init --python 3.15 .
+   uv init --python 3.14 .
    ```
 
    > [!TIP]
    >
    > You can check available python versions using `uv python list`
+   >
+   > An important consideration is that `psycopg` adapter has currently supports for python `3.10` to `3.14` ([see current supports](https://tinyurl.com/j732cduk)).
 
 4. Add Django to the project venv, then scaffold the Django project:
 
@@ -107,11 +109,10 @@ Your directory should now contain the following files:
 
 ### 2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
 
-- In the project's venv (activating venv), install following
+Add the psycopg adapter to your project using `uv`:
 
 ```bash
-pip install "psycopg[binary,pool]"
-pip freeze > requirements.txt
+uv add "psycopg[binary,pool]"
 ```
 
 ### 2.2.2. Create database
