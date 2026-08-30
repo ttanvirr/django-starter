@@ -19,23 +19,34 @@
 
 # 1. Run the existing starter project
 
-- install dependencies
+- Create a venv and activate it
 
-**terminal**
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate
+  ```
 
-```bash
-pip install -r requirements.txt
-```
+- Install dependencies inside the venv
+
+  ```bash
+  pip install -r requirements.txt
+  ```
 
 - create a db ([follow this steps](#database-setup-for-postgresql))
 
-- run `migrate`
+- Run `migrate`
 
-**terminal**
+  ```bash
+  python manage.py migration
+  ```
 
-```bash
-python manage.py migration
-```
+- Run `runserver`
+
+  ```bash
+  python manage.py runserver
+  ```
+
+- Visit `http://127.0.0.1:8000/`
 
 # 2. Step by step guide from scratch (for Ubuntu or wsl)
 
