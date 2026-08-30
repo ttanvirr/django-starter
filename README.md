@@ -59,19 +59,9 @@ Create your own project directory to start from scratch and follow this guide.
    uv run django-admin startproject config .
    ```
 
+   This will create a core project directory named 'config' and a file 'manage.py' inside current directory
+
    To verify that Django can be seen by Python, try this:
-
-   ```bash
-   python -c "import django; print(django.get_version())"
-   ```
-
-   output:
-
-   ```
-   6.1
-   ```
-
-   - Or, run this using `uv`:
 
    ```bash
    uv run python -m django --version
@@ -80,6 +70,14 @@ Create your own project directory to start from scratch and follow this guide.
 5. Create a `.gitignore` file.
 
 [Follow this link](https://github.com/ttanvirr/django-notes/blob/main/.gitignore) and add common things to `.gitignore`.
+
+6. Run the development server to verify that everything is working:
+
+   ```bash
+   uv run manage.py runserver
+   ```
+
+   Ignore the unapplied migration warning for now.
 
 Your directory should now contain the following files:
 
@@ -95,8 +93,9 @@ Your directory should now contain the following files:
 │ ├── settings.py
 │ ├── urls.py
 │ └── wsgi.py
-├── pyproject.toml
+├── db.sqlite3
 ├── .gitignore
+├── pyproject.toml
 ├── uv.lock
 └── README.md
 ```
