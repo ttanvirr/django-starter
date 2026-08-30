@@ -1,2 +1,18 @@
-.venv
+# Python-generated
 __pycache__/
+*.py[cod]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# env file
+.env
+
+# Media and Static files
+media/
+staticfiles/
+
