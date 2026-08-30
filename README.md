@@ -2,16 +2,16 @@
 
 - [1. Run the existing starter project](#1-run-the-existing-starter-project)
 - [2. Step by step guide from scratch (for Ubuntu or wsl)](#2-step-by-step-guide-from-scratch-for-ubuntu-or-wsl)
-  - [Create the Django project using `uv`](#create-the-django-project-using-uv)
-  - [2.6. Database setup for PostgreSQL](#26-database-setup-for-postgresql)
-    - [2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#261-install-psycopg-package-httpsgithubcompsycopgpsycopg)
-    - [2.6.2. Create database](#262-create-database)
-      - [2.6.2.1. enter postgress psql shell](#2621-enter-postgress-psql-shell)
-    - [2.6.3. Settings file](#263-settings-file)
-    - [2.6.4. Environ variables](#264-environ-variables)
-    - [2.6.5. Git commit](#265-git-commit)
-  - [2.7. Configure templates, static files and media](#27-configure-templates-static-files-and-media)
-  - [2.8. (Optional) TailwindCSS and DaisyUI setup for frontend](#28-optional-tailwindcss-and-daisyui-setup-for-frontend)
+  - [2.1. Create the Django project using `uv`](#21-create-the-django-project-using-uv)
+  - [2.2. Database setup for PostgreSQL](#22-database-setup-for-postgresql)
+    - [2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#221-install-psycopg-package-httpsgithubcompsycopgpsycopg)
+    - [2.2.2. Create database](#222-create-database)
+      - [2.2.2.1. enter postgress psql shell](#2221-enter-postgress-psql-shell)
+    - [2.2.3. Settings file](#223-settings-file)
+    - [2.2.4. Environ variables](#224-environ-variables)
+    - [2.2.5. Git commit](#225-git-commit)
+  - [2.3. Configure templates, static files and media](#23-configure-templates-static-files-and-media)
+  - [2.4. (Optional) TailwindCSS and DaisyUI setup for frontend](#24-optional-tailwindcss-and-daisyui-setup-for-frontend)
 
 # 1. Run the existing starter project
 
@@ -38,7 +38,7 @@
 
 Create your own project directory to start from scratch and follow this guide.
 
-## Create the Django project using `uv`
+## 2.1. Create the Django project using `uv`
 
 1. Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed.
 2. Create a project directory (e.g., `django-starter`) and navigate to it.
@@ -59,6 +59,10 @@ Create your own project directory to start from scratch and follow this guide.
    uv run django-admin startproject config .
    ```
 
+5. Create a `.gitignore` file.
+
+[Follow this link](https://github.com/ttanvirr/django-notes/blob/main/.gitignore) and add common things to `.gitignore`.
+
 Your directory should now contain the following files:
 
 ```
@@ -74,16 +78,17 @@ Your directory should now contain the following files:
 │ ├── urls.py
 │ └── wsgi.py
 ├── pyproject.toml
+├── .gitignore
 ├── uv.lock
 └── README.md
 ```
 
-## 2.6. Database setup for PostgreSQL
+## 2.2. Database setup for PostgreSQL
 
 - Django comes with `sqlite` db by defalut. But if we want to setup big db engines like PostgreSql, we need to set it up.
 - This can be done at the end, but recommended to do at the beginning to avoid any issue
 
-### 2.6.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
+### 2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
 
 - In the project's venv (activating venv), install following
 
@@ -92,9 +97,9 @@ pip install "psycopg[binary,pool]"
 pip freeze > requirements.txt
 ```
 
-### 2.6.2. Create database
+### 2.2.2. Create database
 
-#### 2.6.2.1. enter postgress psql shell
+#### 2.2.2.1. enter postgress psql shell
 
 open wsl
 
@@ -120,7 +125,7 @@ This will grant all privileges to the user by default
 \l
 ```
 
-### 2.6.3. Settings file
+### 2.2.3. Settings file
 
 - Install `dj-database-url` for convenience (https://pypi.org/project/dj-database-url/)
 
@@ -168,7 +173,7 @@ This tables are created based on INSTALLED_APPS listed in settings.py
 
 - run `\q` to exit psql shell
 
-### 2.6.4. Environ variables
+### 2.2.4. Environ variables
 
 - create `.env` file in the root
 
@@ -230,11 +235,11 @@ DATABASES["default"]["CONN_MAX_AGE"] = 600
 
 - Stop the server, run migrate and server. Check if everything is okay
 
-### 2.6.5. Git commit
+### 2.2.5. Git commit
 
 - As initial setups have completed, do your first commit (optionally push to a github repo)
 
-## 2.7. Configure templates, static files and media
+## 2.3. Configure templates, static files and media
 
 If you want to use project-level `templates` directory, add this settings in `settings.py`
 
@@ -291,7 +296,7 @@ pip install pillow
 pip freeze > requirements.txt
 ```
 
-## 2.8. (Optional) TailwindCSS and DaisyUI setup for frontend
+## 2.4. (Optional) TailwindCSS and DaisyUI setup for frontend
 
 - will be updated later
 
