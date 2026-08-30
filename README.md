@@ -16,7 +16,7 @@
 # 1. Run the existing starter project
 
 - Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed
-- Install dependencies
+- Install dependencies in the venv
 
   `terminal`
 
@@ -48,10 +48,35 @@ Create your own project directory to start from scratch and follow this guide.
    uv init --python 3.15 .
    ```
 
-> [!TIP]
-> You can check available python versions using `uv python list`
+   > [!TIP]
+   >
+   > You can check available python versions using `uv python list`
 
-4.
+4. Add Django to the project venv, then scaffold the Django project:
+
+   ```bash
+   uv add django
+   uv run django-admin startproject config .
+   ```
+
+Your directory should now contain the following files:
+
+```
+├── .python-version
+├── src/
+│ └── django_starter/
+│   └── __init__.py
+├── manage.py
+├── config/
+│ ├── __init__.py
+│ ├── asgi.py
+│ ├── settings.py
+│ ├── urls.py
+│ └── wsgi.py
+├── pyproject.toml
+├── uv.lock
+└── README.md
+```
 
 ## 2.6. Database setup for PostgreSQL
 
