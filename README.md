@@ -302,8 +302,7 @@ if settings.DEBUG:
 If your project handles image uploads, install `Pillow`:
 
 ```bash
-pip install pillow
-pip freeze > requirements.txt
+uv add pillow
 ```
 
 ## 2.4. (Optional) TailwindCSS and DaisyUI setup for frontend
