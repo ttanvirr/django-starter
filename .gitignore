@@ -1,7 +1,17 @@
-.venv/
+# Python-generated
 __pycache__/
 *.py[cod]
-db.sqlite3
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# env file
 .env
+
+# Media and Static files
 media/
 staticfiles/
