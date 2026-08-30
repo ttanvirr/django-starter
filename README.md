@@ -201,7 +201,7 @@ Replace `<db_owner>` and `<owner_password>` with your postgres user and password
 Generate a secret key for Django:
 
 ```bash
-uv run python -c "import secrets; print(secrets.token_urlsafe(50))"
+python -c "import secrets; print(secrets.token_urlsafe(50))"
 ```
 
 Copy the generated value and use it as the value of `SECRET_KEY` in `.env`.
@@ -246,13 +246,13 @@ rm db.sqlite3
 Run the migrations:
 
 ```bash
-uv run manage.py migrate
+python manage.py migrate
 ```
 
 Then start the development server:
 
 ```bash
-uv run manage.py runserver
+python manage.py runserver
 ```
 
 Check that the application works correctly.
