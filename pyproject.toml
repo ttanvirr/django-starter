@@ -7,7 +7,10 @@ authors = [
     { name = "ttanvirr", email = "tanvir.artisan@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "django>=6.1",
+    "psycopg[binary,pool]>=3.3.4",
+]
 
 [project.scripts]
 00-django-starter-template = "00_django_starter_template:main"
