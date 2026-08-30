@@ -1,19 +1,27 @@
 # Table of contents <!-- omit in toc -->
 
-- [1. Run the existing starter project](#1-run-the-existing-starter-project)
-- [2. Step by step guide from scratch (for Ubuntu or wsl)](#2-step-by-step-guide-from-scratch-for-ubuntu-or-wsl)
-  - [2.1. Create the Django project using `uv`](#21-create-the-django-project-using-uv)
-  - [2.2. Database setup for PostgreSQL](#22-database-setup-for-postgresql)
-    - [2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#221-install-psycopg-package-httpsgithubcompsycopgpsycopg)
-    - [2.2.2. Create the PostgreSQL database](#222-create-the-postgresql-database)
-    - [2.2.3. Configure PostgreSQL and environment variables](#223-configure-postgresql-and-environment-variables)
-    - [2.2.4. Configure `settings.py`](#224-configure-settingspy)
-    - [2.2.5. Verify the PostgreSQL configuration](#225-verify-the-postgresql-configuration)
-    - [2.2.6. Git commit](#226-git-commit)
-  - [2.3. Configure templates, static files and media](#23-configure-templates-static-files-and-media)
-  - [2.4. (Optional) TailwindCSS and DaisyUI setup for frontend](#24-optional-tailwindcss-and-daisyui-setup-for-frontend)
+- [1. Overview: Django starter](#1-overview-django-starter)
+- [2. Run the existing starter project](#2-run-the-existing-starter-project)
+- [3. Step by step guide from scratch (for Ubuntu or wsl)](#3-step-by-step-guide-from-scratch-for-ubuntu-or-wsl)
+  - [3.1. Create the Django project using `uv`](#31-create-the-django-project-using-uv)
+  - [3.2. Database setup for PostgreSQL](#32-database-setup-for-postgresql)
+    - [3.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)](#321-install-psycopg-package-httpsgithubcompsycopgpsycopg)
+    - [3.2.2. Create the PostgreSQL database](#322-create-the-postgresql-database)
+    - [3.2.3. Configure PostgreSQL and environment variables](#323-configure-postgresql-and-environment-variables)
+    - [3.2.4. Configure `settings.py`](#324-configure-settingspy)
+    - [3.2.5. Verify the PostgreSQL configuration](#325-verify-the-postgresql-configuration)
+    - [3.2.6. Git commit](#326-git-commit)
+  - [3.3. Configure templates, static files and media](#33-configure-templates-static-files-and-media)
+  - [3.4. (Optional) TailwindCSS and DaisyUI setup for frontend](#34-optional-tailwindcss-and-daisyui-setup-for-frontend)
 
-# 1. Run the existing starter project
+# 1. Overview: Django starter
+
+This repository is about how to initialize any Django project from scratch.
+
+This repository has 2 versions: 1. using `uv` and 2. using typical `pip`.
+The `main` branch and the `uv` branch uses `uv` and the `pip` branch uses `pip`.
+
+# 2. Run the existing starter project
 
 - Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed
 - Install dependencies in the venv
@@ -34,11 +42,11 @@
   uv run manage.py migrate
   ```
 
-# 2. Step by step guide from scratch (for Ubuntu or wsl)
+# 3. Step by step guide from scratch (for Ubuntu or wsl)
 
 Create your own project directory to start from scratch and follow this guide.
 
-## 2.1. Create the Django project using `uv`
+## 3.1. Create the Django project using `uv`
 
 1. Install [uv](https://tinyurl.com/5bdmvhn4) globaly if not already installed.
 2. Create a project directory (e.g., `django-starter`) and navigate to it.
@@ -102,12 +110,12 @@ Your directory should now contain the following files:
 └── README.md
 ```
 
-## 2.2. Database setup for PostgreSQL
+## 3.2. Database setup for PostgreSQL
 
 - Django comes with `sqlite` db by defalut. But if we want to setup big db engines like PostgreSql, we need to set it up.
 - This can be done at the end, but recommended to do at the beginning to avoid any issue
 
-### 2.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
+### 3.2.1. Install `psycopg` package (https://github.com/psycopg/psycopg/)
 
 `psycopg` is the PostgreSQL adapter that allows Python/Django to communicate with PostgreSQL.
 
@@ -117,7 +125,7 @@ Add it to the project using `uv`:
 uv add "psycopg[binary,pool]"
 ```
 
-### 2.2.2. Create the PostgreSQL database
+### 3.2.2. Create the PostgreSQL database
 
 Open wsl and run the following command to enter postgress `psql` shell
 
@@ -143,7 +151,7 @@ This will grant all privileges to the user by default
 \l
 ```
 
-### 2.2.3. Configure PostgreSQL and environment variables
+### 3.2.3. Configure PostgreSQL and environment variables
 
 Install `django-environ` using `uv`:
 
@@ -172,7 +180,7 @@ uv run python -c "import secrets; print(secrets.token_urlsafe(50))"
 
 Copy the generated value and use it as the value of `SECRET_KEY` in `.env`.
 
-### 2.2.4. Configure `settings.py`
+### 3.2.4. Configure `settings.py`
 
 Modify `config/settings.py` to read the environment variables:
 
@@ -201,7 +209,7 @@ DATABASES = {
 DATABASES["default"]["CONN_MAX_AGE"] = 600
 ```
 
-### 2.2.5. Verify the PostgreSQL configuration
+### 3.2.5. Verify the PostgreSQL configuration
 
 Delete the default SQLite database if it was created:
 
@@ -245,11 +253,11 @@ Exit the PostgreSQL shell with:
 \q
 ```
 
-### 2.2.6. Git commit
+### 3.2.6. Git commit
 
 - As initial setups have completed, do your first commit (optionally push to a github repo)
 
-## 2.3. Configure templates, static files and media
+## 3.3. Configure templates, static files and media
 
 If you want to use project-level `templates` directory, add this settings in `settings.py`
 
@@ -305,7 +313,7 @@ If your project handles image uploads, install `Pillow`:
 uv add pillow
 ```
 
-## 2.4. (Optional) TailwindCSS and DaisyUI setup for frontend
+## 3.4. (Optional) TailwindCSS and DaisyUI setup for frontend
 
 - will be updated later
 
