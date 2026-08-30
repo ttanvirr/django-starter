@@ -59,6 +59,24 @@ Create your own project directory to start from scratch and follow this guide.
    uv run django-admin startproject config .
    ```
 
+   To verify that Django can be seen by Python, try this:
+
+   ```bash
+   python -c "import django; print(django.get_version())"
+   ```
+
+   output:
+
+   ```
+   6.1
+   ```
+
+   - Or, run this using `uv`:
+
+   ```bash
+   uv run python -m django --version
+   ```
+
 5. Create a `.gitignore` file.
 
 [Follow this link](https://github.com/ttanvirr/django-notes/blob/main/.gitignore) and add common things to `.gitignore`.
