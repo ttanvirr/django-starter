@@ -19,23 +19,24 @@
 
 # 1. Run the existing starter project
 
-- install dependencies
+- Install [uv](https://tinyurl.com/5bdmvhn4)
+- Install dependencies
 
-**terminal**
+  `terminal`
 
-```bash
-pip install -r requirements.txt
-```
+  ```bash
+  uv sync
+  ```
 
-- create a db ([follow this steps](#database-setup-for-postgresql))
+- Create a db ([follow this steps](#database-setup-for-postgresql))
 
-- run `migrate`
+- Run `migrate`
 
-**terminal**
+  `terminal`
 
-```bash
-python manage.py migration
-```
+  ```bash
+  uv run manage.py migrate
+  ```
 
 # 2. Step by step guide from scratch (for Ubuntu or wsl)
 
